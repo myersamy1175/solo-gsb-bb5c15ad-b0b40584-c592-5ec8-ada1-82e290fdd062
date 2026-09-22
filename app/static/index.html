@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PCR 引物互补性筛选台</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>🧬 PCR 引物互补性筛选台</h1>
+    <span class="sub">发卡结构 · 引物二聚体 · Tm 风险分级 · 淘汰建议</span>
+  </header>
+
+  <main class="layout">
+    <!-- 左：输入与参数 -->
+    <section class="panel input-panel">
+      <h2>1. 粘贴引物序列（JSON）</h2>
+      <textarea id="primerInput" spellcheck="false" placeholder='{
+  "primers": [
+    {"name": "F1", "sequence": "ATGC..."},
+    {"name": "R1", "sequence": "GCAT..."}
+  ]
+}'></textarea>
+
+      <div class="row">
+        <button id="loadSample" class="btn ghost">载入示例</button>
+        <button id="clearInput" class="btn ghost">清空</button>
+      </div>
+
+      <h2>2. 筛选参数</h2>
+      <div class="params">
+        <label>退火温度 Tm 阈值 (℃)
+          <input type="number" id="temperature" value="50" min="0" max="90" step="0.5" />
+        </label>
+        <label>盐浓度 [Na⁺] (mM)
+          <input type="number" id="saltMm" value="100" min="1" max="1000" step="1" />
+        </label>
+        <label>引物浓度 (nM)
+          <input type="number" id="primerNm" value="250" min="1" max="100000" step="10" />
+        </label>
+        <label>发卡最小环长 (nt)
+          <input type="number" id="minLoop" value="3" min="0" max="20" step="1" />
+        </label>
+      </div>
+      <p class="hint">风险分级：Tm ≥ 阈值+5℃ 为「严重」；Tm ≥ 阈值 为「高风险」；阈值−10℃ 内为「中」。</p>
+
+      <button id="runScreen" class="btn primary">开始筛选</button>
+      <div id="error" class="error" hidden></div>
+    </section>
+
+    <!-- 右：结果 -->
+    <section class="panel result-panel">
+      <div class="result-head">
+        <h2>3. 筛选结果</h2>
+        <div class="row">
+          <button id="exportJson" class="btn ghost" disabled>导出 JSON</button>
+        </div>
+      </div>
+
+      <div id="summary" class="summary" hidden>
+        <div class="cards" id="summaryCards"></div>
+      </div>
+
+      <div id="rejectionBox" class="rejection" hidden>
+        <h3>⛔ 建议淘汰</h3>
+        <ul id="rejectionList"></ul>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="hairpins">发卡结构 <span id="hpCount" class="badge">0</span></button>
+        <button class="tab" data-tab="dimers">引物二聚体 <span id="dmCount" class="badge">0</span></button>
+        <button class="tab" data-tab="history">历史记录 <span id="histCount" class="badge">0</span></button>
+      </div>
+
+      <div id="tab-hairpins" class="tabpane"></div>
+      <div id="tab-dimers" class="tabpane" hidden></div>
+      <div id="tab-history" class="tabpane" hidden></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    简化 SantaLucia(1998) 最近邻 Tm 模型 · Smith-Waterman 局部互补比对 · 结果仅供筛选参考
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

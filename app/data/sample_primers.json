@@ -1,0 +1,27 @@
+{
+  "parameters": {
+    "temperature": 50,
+    "salt_mm": 100,
+    "primer_nm": 250,
+    "min_loop": 3
+  },
+  "primers": [
+    {
+      "name": "F1",
+      "sequence": "ATGCCTAGGCTAACGGCGATCCAGTCGGC"
+    },
+    {
+      "name": "R1",
+      "sequence": "TTAGCGTACGGTACGGCCGACTGGATCGC"
+    },
+    {
+      "name": "HP1",
+      "sequence": "GCGCGGCCGATGCTTTTAGCATCGGCCGCGCGGTT"
+    },
+    {
+      "name": "C1",
+      "sequence": "GGTATACCGGATCGATTCG"
+    }
+  ],
+  "note": "F1/R1 3' 末端 14 nt 反向互补（3' 锚定二聚体）；HP1 含 14 bp 茎 + 3 nt 环的高 Tm 发卡（3' 端额外 4 nt，不锚定 3'）；C1 为低风险对照。"
+}
